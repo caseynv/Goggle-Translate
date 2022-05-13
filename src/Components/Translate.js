@@ -31,9 +31,8 @@ fetch('https://google-translate1.p.rapidapi.com/language/translate/v2', options)
 	.then(response => response.json())
 	.then((response) => 
     {
-      let resp = response.data.translations[0];
-    console.log(resp)
-    console.log(typeof(resp));
+    let resp = response.data.translations[0];
+    
     setRes(resp)
   })
 	.catch(err => console.error(err));
@@ -44,13 +43,11 @@ fetch('https://google-translate1.p.rapidapi.com/language/translate/v2', options)
     setLang(event.target.value);
     event.preventDefault();
   };
-  console.log(Lang);
 
   const handleFormChange = (event) => {
     setWord(event.target.value);
     event.preventDefault();
   };
-  console.log(Word);
 
   return (
     <div className="wrap">
