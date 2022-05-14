@@ -19,7 +19,7 @@ function Translate() {
       'content-type': 'application/x-www-form-urlencoded',
       'Accept-Encoding': 'application/gzip',
       'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com',
-      'X-RapidAPI-Key': 'f98d2bb766mshef7f4292987205ap1ddfcdjsnb747ec34618e'
+      'X-RapidAPI-Key': '#api-key'
     },
     body: encodedParams
   };
