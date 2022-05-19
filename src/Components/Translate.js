@@ -3,62 +3,122 @@ import { useState } from 'react';
 
 function Translate() {
 
+  
   const [LangFrom, setLangFrom] = useState("");
   const [Word, setWord] = useState("");
   const [LangTo, setLangTo] = useState("");
-  const [Res, setRes] = useState([]);
+  const [Lang, setLang] = useState("");
+  const [Res, setRes] = useState([]); 
+  const [Resdetect, setResdetect] = useState([]);
+   
+  const encodedParams1 = new URLSearchParams();
+  encodedParams1.append("q", `${Lang}`);
 
-  const encodedParams = new URLSearchParams();
-  encodedParams.append("q", `${Word}`);
-  encodedParams.append("target", `${LangTo}`);
-  encodedParams.append("source", `${LangFrom}`);
+    const options1 = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        "Accept-Encoding": "application/gzip",
+        "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
+        "X-RapidAPI-Key": "42bfb86b82msh6dd93d7290d0eb9p1d00c4jsn960d9328e1a9",
+      },
+      body: encodedParams1,
+    };
 
-  const options = {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded',
-      'Accept-Encoding': 'application/gzip',
-      'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com',
-      'X-RapidAPI-Key': '#api-key'
-    },
-    body: encodedParams
-  };
+    const detectfunc = () => {
 
-  const apifunc = (event) => {
-    event.preventDefault()
-  fetch('https://google-translate1.p.rapidapi.com/language/translate/v2', options)
+      fetch(
+      "https://google-translate1.p.rapidapi.com/language/translate/v2/detect",
+      options1
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        let resp1 = response.data;
+        let resp2 = resp1["detections"][0];
+        setResdetect(resp2); 
+        console.log(resp2);
+    })
+      .catch((err) => console.error(err));
+    }
+
+    const encodedParams = new URLSearchParams();
+    encodedParams.append("q", `${Word}`);
+    encodedParams.append("target", `${LangTo}`);
+    encodedParams.append("source", `${LangFrom}`);
+
+    const options = {
+      method: "POST",
+      headers: {
+        "content-type": "application/x-www-form-urlencoded",
+        "Accept-Encoding": "application/gzip",
+        "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
+        "X-RapidAPI-Key": "42bfb86b82msh6dd93d7290d0eb9p1d00c4jsn960d9328e1a9",
+      },
+      body: encodedParams,
+    };
+
+
+    const apifunc = () => {
+      
+    fetch('https://google-translate1.p.rapidapi.com/language/translate/v2', options)
     .then(response => response.json())
     .then((response) => 
-      {
+      {console.log(response)
       let resp = response.data.translations[0];
-      setRes(resp)
+      setRes(resp) 
     })
     .catch(err => console.error(err));
   } 
 
+  const handleChange = (event) => {
+    setLang(event.target.value);
+  };
+
   const handleChangeFrom = (event) => {
     setLangFrom(event.target.value);
-    event.preventDefault();
   };
 
   const handleChangeTo = (event) => {
     setLangTo(event.target.value);
-    event.preventDefault();
   };
 
   const handleFormChange = (event) => {
     setWord(event.target.value);
-    event.preventDefault();
   };
+
+  
 
   return (
     <div className="wrap">
-      <form onSubmit={apifunc}>
-        <label className='wrap-1'>
+      <form className='form-wrap'
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Find the origin of a word..."
+          value={Lang}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit" onClick={detectfunc}>
+          submit
+        </button>
+      
+        { Resdetect.map((redd, id) => {
+          return(
+            <div className="translated" key={id}>
+              Translated word is: {redd.language}
+            </div>)
+        })
+            }
+      
+        <label className="wrap-1">
           <div className="lang-wrap">
-
-            <div className='left'>
-              <p className='para'>From: </p>
+            <div className="left">
+              <p className="para">From: </p>
               <select value={LangFrom} onChange={handleChangeFrom}>
                 <option value="af">Afrikaans af</option>
                 <option value="sq">Albanian sq</option>
@@ -167,8 +227,8 @@ function Translate() {
               </select>
             </div>
 
-            <div className='right'>
-              <p className='para'>To: </p>
+            <div className="right">
+              <p className="para">To: </p>
               <select value={LangTo} onChange={handleChangeTo}>
                 <option value="af">Afrikaans af</option>
                 <option value="sq">Albanian sq</option>
@@ -276,7 +336,6 @@ function Translate() {
                 <option value="zu">Zulu zu</option>
               </select>
             </div>
-
           </div>
           <input
             type="text"
@@ -284,12 +343,15 @@ function Translate() {
             placeholder="Translate a word..."
             value={Word}
             onChange={handleFormChange}
-            required
           />
         </label>
+        <button type="submit" onClick={apifunc}>
+          submit
+        </button>
       </form>
       <div className="translated">Translated word is: {Res.translatedText}</div>
-    </div>
+     
+     </div>
   );
 }
 
