@@ -20,7 +20,7 @@ function Translate() {
         "content-type": "application/x-www-form-urlencoded",
         "Accept-Encoding": "application/gzip",
         "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
-        "X-RapidAPI-Key": "apikey",
+        "X-RapidAPI-Key": "42bfb86b82msh6dd93d7290d0eb9p1d00c4jsn960d9328e1a9",
       },
       body: encodedParams1,
     };
@@ -52,7 +52,7 @@ function Translate() {
         "content-type": "application/x-www-form-urlencoded",
         "Accept-Encoding": "application/gzip",
         "X-RapidAPI-Host": "google-translate1.p.rapidapi.com",
-        "X-RapidAPI-Key": "apikey",
+        "X-RapidAPI-Key": "42bfb86b82msh6dd93d7290d0eb9p1d00c4jsn960d9328e1a9",
       },
       body: encodedParams,
     };
