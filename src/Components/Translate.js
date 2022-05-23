@@ -46,6 +46,7 @@ function Translate() {
     encodedParams.append("target", `${LangTo}`);
     encodedParams.append("source", `${LangFrom}`);
 
+
     const options = {
       method: "POST",
       headers: {
@@ -337,6 +338,7 @@ function Translate() {
               </select>
             </div>
           </div>
+
           <input
             type="text"
             className="form-control"
@@ -344,6 +346,7 @@ function Translate() {
             value={Word}
             onChange={handleFormChange}
           />
+
         </label>
         <button type="submit" onClick={apifunc}>
           submit
@@ -351,7 +354,8 @@ function Translate() {
       </form>
       <div className="translated">Translated word is: {Res.translatedText}</div>
      
-     </div>
+    </div>
+
   );
 }
 
